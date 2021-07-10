@@ -1,23 +1,40 @@
-Code used in my [Screeps Nooby Guide video series](https://www.youtube.com/playlist?list=PL0EZQ169YGlor5rzeJEYYPE3tGYT2zGT2). Please check out other branches than master for code that relates to a specific video.
+Whilst it is old now, thPion's Screeps Nooby Guide inspired me to work a different version of this codebase.
 
-Youtube videos:
+I selected [thPion's code](https://github.com/thPion/Screeps-Nooby-Guide) as a fork for this because it is very easy to understand and simple. It gives some good ideas about basic play that can be expanded upon. Other ideas have been heavily influenced by [jerroydmoore's screeps ai](https://github.com/jerroydmoore/screeps-ai). Both are licenced under MIT licence.
+
+If you want to learn more about Screeps I recommend watching thPion's YouTube videos - [Screeps Nooby Guide video series](https://www.youtube.com/playlist?list=PL0EZQ169YGlor5rzeJEYYPE3tGYT2zGT2). Please check out other branches than master for code that relates to a specific video.
+
+Initial Steps
 ----
 
-- [Part 1](https://www.youtube.com/watch?v=edBMmOAfJ-Q): Screeps Nooby Guide #1: Choosing a room and setting up IDE - 4:50
-- [Part 2](https://www.youtube.com/watch?v=8woEL3hQeNY): Screeps Nooby Guide #2: Harvesting Energy - 15:55
-- [Part 3](https://www.youtube.com/watch?v=GCnwbNW6Y5k): Screeps Nooby Guide #3: Upgrading the Controller - 9:34
-- [Part 4](https://www.youtube.com/watch?v=vlVSwfM1sR8): Screeps Nooby Guide #4: Spawning Creeps - 14:03
-- [Part 5](https://www.youtube.com/watch?v=prmhEdyFK1A): Screeps Nooby Guide #5: Building Things - 19:45
-- [Part 6](https://www.youtube.com/watch?v=T1iTp5Av6ls): Screeps Nooby Guide #6: Repairing and Extensions - 16:36
-- [Part 7](https://www.youtube.com/watch?v=MAeO44aBgw8): Screeps Nooby Guide #7: Advanced Spawning and Prototypes - 23:24
-- [Part 8](https://www.youtube.com/watch?v=1UB0h468A8M): Screeps Nooby Guide #8: Towers and Walls - 21:29
-- [Part 8.1](https://www.youtube.com/watch?v=XgCBdF1BBdE): Screeps Nooby Guide #8.1: Fixing the WallRepairer - 5:23
-- [Part 9](https://www.youtube.com/watch?v=KK7Cnum6DUc): Screeps Nooby Guide #9: Local Private Server - 11:52
-- [Part 10](https://www.youtube.com/watch?v=BiIDH2Ui8L8): Screeps Nooby Guide #10: Long Distance Harvesting - 34:36
-- [Part 11](https://www.youtube.com/watch?v=b_dn8a7xvec): Screeps Nooby Guide #11: Multi-Rooming - 43:15
-- [Part 12](https://www.youtube.com/watch?v=XyRQDmZWPDU): Screeps Nooby Guide #12: Container Mining - 53.21
-- [Part 13](https://www.youtube.com/watch?v=lYzJC7dAGec&t=4s): Screeps Nooby Guide #13: Storage - 28.39
-- [Part 14](https://www.youtube.com/watch?v=6b-ZZ6bROWI&t=857s) : Screeps Nooby Guide #14: Refactoring - 30.15
+Tidy up of code needs to be performed not all of the deprecated properties are used in the current codebase but doesn't hurt to list.
+
+- The Screeps API has changed since the original code base was written and further changes are on the way.
+- Function to spawn creep with memory has changed
+- Some properties, mostly around energy and making all resources handled in a standard way are deprecated and will be removed soon these include:
+- Creep Prototype carry and carryCapacity (Replaced with Creep.store and Creep.getCapacity())
+- StructureContainers storeCapacity (Replaced with store.getCapacity())
+- StructureExtensions energy and energyCapacity (Replaced with store[RESOURCE_ENERGY] and store.getCapacity(RESOURCE_ENERGY))
+- StructureFactory storeCapacity (Replaced with store.getCapacity())
+- StructureLab energy, energyCapacity, mineralAmount, mineralCapcity (Replaced with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), lab.store[lab.mineralType])
+- StructureLink energy and energyCapacity (Replaced with store[RESOURCE_ENERGY] and store.getCapacity(RESOURCE_ENERGY)
+- StructureNuker energy, energyCapacity, ghodium, and ghodiumCapacity (Replaced with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), store[RESOURCE_GHODIUM], store.getCapacity(RESOURCE_RHODIUM))
+- StructurePowerSpawn energy, energyCapacity, power, powerCapacity (Replace with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), store[RESOURCE_POWER], store.getCapacity(RESOURCE_POWER)
+- StructureSpawn energy, energyCapacity, canCreateCreep, createCreep (Replaced with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), use StructureSpawn.spawnCreep with dryRun flag, and StructureSpawn.spawnCreep)
+- StructureStorage storeCapacity replaced with store.getCapacity()
+- StructureTerminal storeCapacity replaced with store.getCapacity()
+- StructureTower energy and energyCapacity (Replaced with store[RESOURCE_ENERGY] and store.getCapacity(RESOURCE_ENERGY))
+- Code needs to be refactored further
+
+Project Plan (Big Picture Idea of Code)
+----
+- Be able to survive by itself to some degree,
+- Responsive to game stage and grow appropriately as room controller level, GCL/GPL increase
+- Dynamic spawning of creeps depending on available energy in room
+- Automated construction of roads, towers, extensions, containers, storage, extractor, terminal, factories, labs.
+- Transition to container harvesting and then multi room harvesting and expansion to further rooms as GCL increases.
+- Move away from search/find functions and utilise memory as much as possible information about rooms and objects (anything that can't/won't change should be stored in memory, anything that won't change in the near future should be checked periodically and updated, definately minimise what gets checked every tick)
+
 
 License
 ----
