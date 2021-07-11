@@ -7,7 +7,8 @@ var roles = {
     longDistanceHarvester: require('role.longDistanceHarvester'),
     claimer: require('role.claimer'),
     miner: require('role.miner'),
-    lorry: require('role.lorry')
+    lorry: require('role.lorry'),
+    roleExtractor: require('role.extractor')
 };
 
 Creep.prototype.runRole =
@@ -44,4 +45,13 @@ Creep.prototype.getEnergy =
           this.moveTo(source);
         }
       }
+    };
+
+Creep.prototype.pickUpResource =
+    function () {
+        target = this.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+        if (this.pickup(target) == ERR_NOT_IN_RANGE)
+        {
+            this.moveTo(target);
+        }
     };
