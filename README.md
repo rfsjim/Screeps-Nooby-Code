@@ -35,6 +35,9 @@ Project Plan (Big Picture Idea of Code)
 - Transition to container harvesting and then multi room harvesting and expansion to further rooms as GCL increases.
 - Move away from search/find functions and utilise memory as much as possible information about rooms and objects (anything that can't/won't change should be stored in memory, anything that won't change in the near future should be checked periodically and updated, definately minimise what gets checked every tick)
 
+Wiki
+----
+About the project, will grow with more details about my reasons for making choices and documentation of the code - [Scrreps Noobdy Code Wiki](https://github.com/rfsjim/Screeps-Nooby-Code/wiki)
 
 License
 ----
