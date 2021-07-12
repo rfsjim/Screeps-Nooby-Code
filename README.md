@@ -40,7 +40,6 @@ Wiki
 About the project, will grow with more details about my reasons for making choices and documentation of the code - [Scrreps Noobdy Code Wiki](https://github.com/rfsjim/Screeps-Nooby-Code/wiki)
 
 - Well documented code makes for happy creeps
-- Comments and documentation
 
 License
 ----
