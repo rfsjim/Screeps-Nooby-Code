@@ -7,23 +7,11 @@ If you want to learn more about Screeps I recommend watching thPion's YouTube vi
 Initial Steps
 ----
 
-Tidy up of code needs to be performed not all of the deprecated properties are used in the current codebase but doesn't hurt to list.
+Tidied up code was performed for the deprecated properties that are used in the current codebase.
 
 - The Screeps API has changed since the original code base was written and further changes are on the way.
-- Function to spawn creep with memory has changed
-- Some properties, mostly around energy and making all resources handled in a standard way are deprecated and will be removed soon these include:
-- Creep Prototype carry and carryCapacity (Replaced with Creep.store and Creep.getCapacity())
-- StructureContainers storeCapacity (Replaced with store.getCapacity())
-- StructureExtensions energy and energyCapacity (Replaced with store[RESOURCE_ENERGY] and store.getCapacity(RESOURCE_ENERGY))
-- StructureFactory storeCapacity (Replaced with store.getCapacity())
-- StructureLab energy, energyCapacity, mineralAmount, mineralCapcity (Replaced with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), lab.store[lab.mineralType])
-- StructureLink energy and energyCapacity (Replaced with store[RESOURCE_ENERGY] and store.getCapacity(RESOURCE_ENERGY)
-- StructureNuker energy, energyCapacity, ghodium, and ghodiumCapacity (Replaced with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), store[RESOURCE_GHODIUM], store.getCapacity(RESOURCE_RHODIUM))
-- StructurePowerSpawn energy, energyCapacity, power, powerCapacity (Replace with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), store[RESOURCE_POWER], store.getCapacity(RESOURCE_POWER)
-- StructureSpawn energy, energyCapacity, canCreateCreep, createCreep (Replaced with store[RESOURCE_ENERGY], store.getCapacity(RESOURCE_ENERGY), use StructureSpawn.spawnCreep with dryRun flag, and StructureSpawn.spawnCreep)
-- StructureStorage storeCapacity replaced with store.getCapacity()
-- StructureTerminal storeCapacity replaced with store.getCapacity()
-- StructureTower energy and energyCapacity (Replaced with store[RESOURCE_ENERGY] and store.getCapacity(RESOURCE_ENERGY))
+- Function to spawn creep with memory has changed FIXED
+- Some properties, mostly around energy and making all resources handled in a standard way are deprecated and will be removed soon FIXED
 - Code needs to be refactored further
 
 Project Plan (Big Picture Idea of Code)
