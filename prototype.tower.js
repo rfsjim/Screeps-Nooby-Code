@@ -10,7 +10,7 @@ StructureTower.prototype.defend =
       this.busy = 1;
     }
 
-    let ratio = this.store.getUsedCapacity(RESOURCE_ENERGY) / this.store.getCapacity(RESOURCE_ENERGY);
+    let ratio = this.store[RESOURCE_ENERGY] / this.store.getCapacity(RESOURCE_ENERGY);
     if (ratio >= 0.5 && !this.busy) {
         for (let name in Game.creeps) {
             var creep = Game.creeps[name];

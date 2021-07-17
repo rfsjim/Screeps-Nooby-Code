@@ -3,7 +3,7 @@ module.exports = {
     /** @param {Creep} creep **/
     run: function(creep) {
 
-        if (creep.memory.extracting && creep.carryCapacity == _.sum(creep.carry)) {
+        if (creep.memory.extracting && creep.store.getCapacity() == _.sum(creep.carry)) {
             creep.memory.extracting = false;
         }
         if (!creep.memory.extracting && 0 == _.sum(creep.carry)) {

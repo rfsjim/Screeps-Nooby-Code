@@ -3,12 +3,12 @@ module.exports = {
     /** @param {Creep} creep */
     run: function(creep) {
         // if creep is bringing energy to a structure but has no energy left
-        if (creep.memory.working == true && creep.carry.energy == 0) {
+        if (creep.memory.working == true && creep.store[RESOURCE_ENERGY] == 0) {
             // switch state
             creep.memory.working = false;
         }
         // if creep is harvesting energy but is full
-        else if (creep.memory.working == false && creep.carry.energy == creep.carryCapacity) {
+        else if (creep.memory.working == false && creep.store[RESOURCE_ENERGY] == creep.store.getCapacity(RESOURCE_ENERGY)) {
             // switch state
             creep.memory.working = true;
         }
@@ -26,7 +26,7 @@ module.exports = {
                                  || s.structureType == STRUCTURE_EXTENSION
                                  || s.structureType == STRUCTURE_TOWER
                                  || s.structureType == STRUCTURE_TERMINAL)
-                                 && s.energy < s.energyCapacity
+                                 && s.store[RESOURCE_ENERGY] < s.store.getCapacity(RESOURCE_ENERGY)
                 });
 
                 if (structure == undefined) {
