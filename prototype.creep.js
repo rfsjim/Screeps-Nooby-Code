@@ -8,7 +8,9 @@ var roles = {
     claimer: require('role.claimer'),
     miner: require('role.miner'),
     lorry: require('role.lorry'),
-    roleExtractor: require('role.extractor')
+    roleExtractor: require('role.extractor'),
+    cleaner: require('role.cleaner'),
+    carlDouglas: require('role.carlDouglas')
 };
 
 Creep.prototype.runRole =
@@ -54,4 +56,4 @@ Creep.prototype.pickUpResource =
         {
             this.moveTo(target);
         }
-    };
+    }; 

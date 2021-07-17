@@ -1,7 +1,8 @@
 //import modules
 require('prototype.creep'); // common code for all creeps
 require('prototype.tower'); // common code for all towers
-require('prototype.spawn'); // common code for spawn
+require('prototype.spawn'); // common code for all spawns
+require('prototype.terminal'); // common code for all terminals
 
 module.exports.loop = function () {
   // check for memory entries of dead creeps by iterating over Memory.creeps
@@ -26,10 +27,22 @@ module.exports.loop = function () {
     // run tower logic
     tower.defend();
     }
-    
+
     // for each spawn
     for (let spawnName in Game.spawns) {
         // run spawn logic
-        Game.spawns[spawnName].spawnCreepsIfNecessary();
+       Game.spawns[spawnName].spawnCreepsIfNecessary();
+
+       // run terminal trades
+       if (Game.spawns[spawnName].room.terminal && (Game.time % 10 == 0)) {
+           Game.spawns[spawnName].room.terminal.findTrade();
+       }
+
+       // find hostile creeps for defense
+       let targets = Game.spawns[spawnName].room.find(FIND_HOSTILE_CREEPS);
+        if (targets.length > 0)
+        {
+            Game.spawns[spawnName].engageSafeMode();
+        }
     }
 };

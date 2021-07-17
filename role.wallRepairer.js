@@ -55,9 +55,9 @@ module.exports = {
                 roleBuilder.run(creep);
             }
         }
-        // if creep is supposed to get energy
+            // if creep is supposed to get energy
         else {
-            creep.getEnergy(true, true);
+                creep.getEnergy(true, true);
         }
     }
 };

@@ -23,7 +23,8 @@ module.exports = {
                 // we use the arrow operator to define it
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
                              || s.structureType == STRUCTURE_EXTENSION
-                             || s.structureType == STRUCTURE_TOWER)
+                             || s.structureType == STRUCTURE_TOWER
+                             || s.structureType == STRUCTURE_TERMINAL)
                              && s.energy < s.energyCapacity
             });
 

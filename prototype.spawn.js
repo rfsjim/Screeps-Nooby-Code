@@ -1,8 +1,10 @@
-var listOfRoles = ['harvester', 'lorry', 'claimer', 'upgrader', 'repairer', 'builder', 'wallRepairer', 'roleExtractor'];
+var listOfRoles = ['harvester', 'lorry', 'claimer', 'upgrader', 'cleaner', 'repairer', 'builder', 'wallRepairer', 'roleExtractor'];
 
 // create a new function for StructureSpawn
 StructureSpawn.prototype.spawnCreepsIfNecessary =
   function() {
+      // check to make sure spawn not currently spawning
+      if (this.spawning) return;
     // find room name
     let room = this.room;
     // find creeps in room
@@ -47,6 +49,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
             // if there is a container next to the source
             if (containers.length > 0) {
               // spawn a miner for container
+              console.log("Room: " + room + " containers not being mined in room");
               name = this.createMiner(source.id);
               break;
             }
@@ -60,6 +63,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
         // check if any orders to claim a new room
         if (role == 'claimer' && this.memory.claimRoom != undefined) {
           // check available energy and try to spawn claimer
+          console.log("Room: " + room + " " + this.name + " Trying to run claimer creation");
           if (room.energyAvailable >= (BODYPART_COST["claim"] + BODYPART_COST["move"])) {
             name = this.createClaimer(this.memory.claimRoom);
           }
@@ -76,6 +80,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
           else {
             if (room.energyAvailable == maxEnergy) {
             name = this.createCustomCreep(maxEnergy, role);
+            console.log("Spawned custom creep in room: " + room + ", " + name + " (" + role + ")");
             }
           }
           break;
@@ -108,6 +113,14 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
     }
   };
 
+// function to engage safe mode if required
+StructureSpawn.prototype.engageSafeMode =
+    function() {
+        console.log("Emergency Mode " + this.room.name + " engaged");
+        this.room.controller.activateSafeMode();
+        this.createKungFuFighter(this.room.energyAvailable);
+    }
+
 // create new function to spawn creeps
 StructureSpawn.prototype.createCustomCreep =
   function(energy, roleName) {
@@ -129,7 +142,9 @@ StructureSpawn.prototype.createCustomCreep =
 
     // create a creep with created body part for the given role
     let creepMemory = { memory: {role: roleName, working: false}};
-    return this.spawnCreep(body, roleName + Game.time, creepMemory);
+    if (this.spawnCreep(body, roleName + Game.time, creepMemory) == 0) {
+        return;
+    }
   };
 
 // create new function to spawn long distance miners
@@ -165,7 +180,9 @@ StructureSpawn.prototype.createLongDistanceHarvester =
     }
 
     let creepMemory = {memory: {role: 'longDistanceHarvester',home: home,target: target,sourceIndex: sourceIndex,working: false}};
-    return this.spawnCreep(body, 'longDistanceHarvester' + Game.time, creepMemory);
+    if (this.spawnCreep(body, 'longDistanceHarvester' + Game.time, creepMemory) == 0) {
+        return;
+    }
   };
 
 // create function to spawn claimer
@@ -173,7 +190,9 @@ StructureSpawn.prototype.createClaimer =
   function(target) {
     // claimer just needs move and claim part
     let creepMemory = {memory: {role: 'claimer', target: target}};
-    return this.spawnCreep([CLAIM, MOVE], 'claimer' + Game.time, creepMemory);
+    if (this.spawnCreep([CLAIM, MOVE], 'claimer' + Game.time, creepMemory) == 0) {
+        return;
+    }
   };
 
 // create function to spawn miner
@@ -181,7 +200,9 @@ StructureSpawn.prototype.createMiner =
   function(sourceId) {
     // accept sourceId that requires miner. Miners five work parts will empty a source in the refresh time frame
     let creepMemory = {memory: {role: 'miner', sourceId: sourceId}};
-    return this.spawnCreep([WORK, WORK, WORK, WORK, WORK, MOVE], 'miner' + Game.time, creepMemory);
+    if (this.spawnCreep([WORK, WORK, WORK, WORK, WORK, MOVE], 'miner' + Game.time, creepMemory) == 0) {
+        return;
+    }
   };
 
 // create function to spawn lorry
@@ -201,5 +222,61 @@ StructureSpawn.prototype.createLorry =
 
     // create creep with the created body and the role lorry
     let creepMemory = {memory: {role: 'lorry', working: false}};
-    return this.spawnCreep(body, 'lorry'+Game.time, creepMemory);
+    if (this.spawnCreep(body, 'lorry'+Game.time, creepMemory) == 0) {
+        return;
+    }
   };
+
+ // everybody was kung fu fighting
+ StructureSpawn.prototype.createKungFuFighter =
+    function(energy) {
+        // composition of fighter changes depending on room size
+        let roleName = "carlDouglas";
+        var body = [];
+        if (energy < ((BODYPART_COST["move"]*2) + BODYPART_COST["attack"] + BODYPART_COST["ranged_attack"])) {
+            // not enough energy to make a ranged attacked make basic bob (for each non move part make a move part)
+            var numberOfParts = Math.floor(energy / (BODYPART_COST["move"] + BODYPART_COST["attack"]));
+            // keep under 50 part cap
+            numberOfParts = Math.min(numberOfParts,Math.floor(50/2));
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(ATTACK);
+            }
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(MOVE);
+            }
+        }
+        else if (energy < ((BODYPART_COST["move"]*3) + BODYPART_COST["attack"] + BODYPART_COST["ranged_attack"] + BODYPART_COST["heal"]) ) {
+            var numberOfParts = Math.floor(energy / ((BODYPART_COST["move"]*2) + BODYPART_COST["attack"] + BODYPART_COST["ranged_attack"]));
+            // keep under 50 part cap
+            numberOfParts = Math.min(numberOfParts,Math.floor(50/4));
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(RANGED_ATTACK);
+            }
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(ATTACK);
+            }
+            for (let i=0;i<numberOfParts*2;i++) {
+                body.push(MOVE);
+            }
+        } else {
+            var numberOfParts = Math.floor(energy / ((BODYPART_COST["move"]*3) + BODYPART_COST["attack"] + BODYPART_COST["ranged_attack"] + BODYPART_COST["heal"]));
+            // keep under 50 part cap
+            numberOfParts = Math.min(numberOfParts,Math.floor(50/6));
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(HEAL);
+            }
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(RANGED_ATTACK);
+            }
+            for (let i=0;i<numberOfParts;i++) {
+                body.push(ATTACK);
+            }
+            for (let i=0;i<numberOfParts*3;i++) {
+                body.push(MOVE);
+            }
+            }
+            let creepMemory = {memory: {role: roleName, working: false}};
+            if (this.spawnCreep(body, roleName + Game.time, creepMemory) == 0) {
+                return;
+            }
+    };

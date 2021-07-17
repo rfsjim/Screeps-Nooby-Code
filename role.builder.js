@@ -13,6 +13,10 @@ module.exports = {
       return;
     }
 
+    if (creep.memory.target != undefined && creep.room.name == creep.memory.target && creep.room.controller.ticksToDowngrade < 999) {
+        roleUpgrader.run(creep);
+    }
+
     // if creep is trying to complete a constructionSite but has no energy left
     if (creep.memory.working == true && creep.store[RESOURCE_ENERGY] == 0) {
       // switch state
