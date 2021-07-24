@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
 
-  var config = require('.screeps.json');
+  var config = require('./.screeps.json');
   var branch = grunt.option('branch') || config.branch;
   var email = grunt.option('email') || config.email;
   var token = grunt.option('token') || config.token;
@@ -42,5 +42,5 @@ module.exports = function(grunt) {
     }
   })
 
-  grunt.taskRegister('default', ['file_append:versioning', 'screeps']);
+  grunt.registerTask('default', ['file_append:versioning', 'screeps']);
 }
