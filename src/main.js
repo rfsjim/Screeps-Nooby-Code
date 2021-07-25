@@ -5,7 +5,19 @@ require('prototype.spawn'); // common code for all spawns
 require('prototype.terminal'); // common code for all terminals
 require('version'); // check script version
 
+const init = require('init'); // game init details
+
 module.exports.loop = function () {
+
+  let phaseNumber = init.getCurrentPhaseNumber(Game.spawns['Spawn1'].room);
+
+  init.initGame(phaseNumber);
+
+  if (Game.cpu.tickLimit < 50) {
+    console.log('Game CPU dangerously low ' + JSON.stringify(Game.cpu));
+    return;
+  }
+
   // check for memory entries of dead creeps by iterating over Memory.creeps
   for (let name in Memory.creeps) {
       // and checking if the creep is still alive
