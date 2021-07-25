@@ -1,16 +1,16 @@
 var roles = {
-    harvester: require('role.harvester'),
-    upgrader: require('role.upgrader'),
-    builder: require('role.builder'),
-    repairer: require('role.repairer'),
-    wallRepairer: require('role.wallRepairer'),
-    longDistanceHarvester: require('role.longDistanceHarvester'),
-    claimer: require('role.claimer'),
-    miner: require('role.miner'),
-    lorry: require('role.lorry'),
-    roleExtractor: require('role.extractor'),
-    cleaner: require('role.cleaner'),
-    carlDouglas: require('role.carlDouglas')
+    harvester: require('./role.harvester'),
+    upgrader: require('./role.upgrader'),
+    builder: require('./role.builder'),
+    repairer: require('./role.repairer'),
+    wallRepairer: require('./role.wallRepairer'),
+    longDistanceHarvester: require('./role.longDistanceHarvester'),
+    claimer: require('./role.claimer'),
+    miner: require('./role.miner'),
+    lorry: require('./role.lorry'),
+    roleExtractor: require('./role.extractor'),
+    cleaner: require('./role.cleaner'),
+    carlDouglas: require('./role.carlDouglas')
 };
 
 Creep.prototype.runRole =

@@ -1,4 +1,4 @@
-var roleBuilder = require('role.builder');
+var roleBuilder = require('./role.builder');
 
 module.exports = {
     // a function to run the logic for this role
