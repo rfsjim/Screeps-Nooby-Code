@@ -5,7 +5,7 @@ module.exports = {
 
       //find hostile creeps to attack if creep has attack parts
       if (creep.getActiveBodyparts(ATTACK)>0) {
-        let target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        var target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
       }
 
       // find creeps to heal if creep has heal parts - simultaneous execution of actions does right most action first
@@ -18,7 +18,7 @@ module.exports = {
           return;
         }
         //find my creeps in room to heal if required
-        let healTarget = creep.pos.findClosestByRange(FIND_MY_CREEPS, {
+        var healTarget = creep.pos.findClosestByRange(FIND_MY_CREEPS, {
           filter: function(object) {
             return object.hits < object.hitsMax;
           }
