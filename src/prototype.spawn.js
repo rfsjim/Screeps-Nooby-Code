@@ -13,7 +13,11 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
     for (let role of listOfRoles) {
       numberOfCreeps[role] = _.sum(creepsInRoom, (c) => c.memory.role == role);
     }
-    let maxEnergy = room.energyCapacityAvailable;
+    // general creeps max cost will be 3.2k energy
+    // starting from RCL 7 this can be used with 2.4k energy left over
+    // restricting maxEnergy to only the full room capacity size is wasteful
+    // at higher RCL due to lost time for maxEnergy to max out at max general creep size
+    let maxEnergy = Math.min(room.energyCapacityAvailable,3200);
     let name = undefined;
 
     // if no harvesters and no lorries we need a back up creep
@@ -25,12 +29,12 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
       (BODYPART_COST["work"] * 5) + BODYPART_COST["move"];
       if (numberOfCreeps['miner'] > 0 ||
       (room.storage != undefined && room.storage.store[RESOURCE_ENERGY] >= minFloorRequiredEnergy)) {
-        //create a lorry
+        //create a lorry using least amount of energy required
         name = this.createLorry((BODYPART_COST["carry"] * 2) + BODYPART_COST["move"]);
       }
       // if no miners and insufficient storage left in room
       else {
-        // back up option two - create harvester to get economy up and running again
+        // back up option two - create harvester using available energy to get economy up and running again
         name = this.createCustomCreep(room.energyAvailable, 'harvester');
       }
     }
@@ -66,6 +70,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
           console.log("Room: " + room + " " + this.name + " Trying to run claimer creation");
           if (room.energyAvailable >= (BODYPART_COST["claim"] + BODYPART_COST["move"])) {
             name = this.createClaimer(this.memory.claimRoom);
+            delete this.memory.claimRoom;
           }
           if (name != undefined && _.isString(name)) {
             // delete claim order because claimer successful
@@ -73,12 +78,14 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
           }
         }
         // if no claim order continue checking roles
+        // can build variable sized lorries
         else if (numberOfCreeps[role] < this.memory.minCreeps[role]) {
           if (role == 'lorry' && room.energyAvailable >= ((BODYPART_COST["carry"]*2) + BODYPART_COST["move"])) {
             name = this.createLorry(room.energyAvailable);
           }
           else {
             if (room.energyAvailable == maxEnergy) {
+            // only want full size of other creeps
             name = this.createCustomCreep(maxEnergy, role);
             console.log("Spawned custom creep in room: " + room + ", " + name + " (" + role + ")");
             }
