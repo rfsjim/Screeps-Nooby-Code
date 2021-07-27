@@ -7,6 +7,22 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
       if (this.spawning) return;
     // find room name
     let room = this.room;
+
+    // check minCreeps memory exists
+    // temp add Memory
+    // Todo needs to be better with numbers based on current phase
+    if (!this.memory.minCreeps) {
+      this.memory.minCreeps = {};
+      this.memory.minCreeps.harvester = 1;
+      this.memory.minCreeps.lorry = 1;
+      this.memory.minCreeps.claimer = 0;
+      this.memory.minCreeps.upgrader = 1;
+      this.memory.minCreeps.cleaner = 0;
+      this.memory.minCreeps.repairer = 1;
+      this.memory.minCreeps.builder = 1;
+      this.memory.minCreeps.wallRepairer = 0;
+      this.memory.minCreeps.roleExtractor = 0;
+    }
     // find creeps in room
     let creepsInRoom = room.find(FIND_MY_CREEPS);
     let numberOfCreeps = {};
