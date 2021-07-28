@@ -36,7 +36,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
     // restricting maxEnergy to only the full room capacity size is wasteful
     // at higher RCL due to lost time for maxEnergy to max out at max general creep size
     let maxEnergy = Math.min(room.energyCapacityAvailable,3200);
-    conole.log(maxEnergy + " " + this.name);
+    console.log(maxEnergy + " " + this.name);
     let name = undefined;
 
     // if no harvesters and no lorries we need a back up creep
