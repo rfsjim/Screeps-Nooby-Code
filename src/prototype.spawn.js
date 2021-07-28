@@ -12,6 +12,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
     // temp add Memory
     // Todo needs to be better with numbers based on current phase
     if (!this.memory.minCreeps) {
+      console.log("Running spawn creep memory " + this.name);
       this.memory.minCreeps = {};
       this.memory.minCreeps.harvester = 1;
       this.memory.minCreeps.lorry = 1;
@@ -28,12 +29,14 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
     let numberOfCreeps = {};
     for (let role of listOfRoles) {
       numberOfCreeps[role] = _.sum(creepsInRoom, (c) => c.memory.role == role);
+      console.log("Checking number of creeps " + this.name);
     }
     // general creeps max cost will be 3.2k energy
     // starting from RCL 7 this can be used with 2.4k energy left over
     // restricting maxEnergy to only the full room capacity size is wasteful
     // at higher RCL due to lost time for maxEnergy to max out at max general creep size
     let maxEnergy = Math.min(room.energyCapacityAvailable,3200);
+    conole.log(maxEnergy + " " + this.name);
     let name = undefined;
 
     // if no harvesters and no lorries we need a back up creep
@@ -47,11 +50,13 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
       (room.storage != undefined && room.storage.store[RESOURCE_ENERGY] >= minFloorRequiredEnergy)) {
         //create a lorry using least amount of energy required
         name = this.createLorry((BODYPART_COST["carry"] * 2) + BODYPART_COST["move"]);
+        console.log("Basic lorry and miner " + this.name);
       }
       // if no miners and insufficient storage left in room
       else {
         // back up option two - create harvester using available energy to get economy up and running again
         name = this.createCustomCreep(room.energyAvailable, 'harvester');
+        console.log("Basic harvester " + this.name);
       }
     }
     // if no back up creeps required
@@ -69,7 +74,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
             // if there is a container next to the source
             if (containers.length > 0) {
               // spawn a miner for container
-              console.log("Room: " + room + " containers not being mined in room");
+              console.log("Room: " + room + " containers not being mined in room " + this.name);
               name = this.createMiner(source.id);
               break;
             }
@@ -87,6 +92,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
           if (room.energyAvailable >= (BODYPART_COST["claim"] + BODYPART_COST["move"])) {
             name = this.createClaimer(this.memory.claimRoom);
             delete this.memory.claimRoom;
+            console.log("Claimer " + this.name)
           }
           if (name != undefined && _.isString(name)) {
             // delete claim order because claimer successful
@@ -98,9 +104,10 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
         else if (numberOfCreeps[role] < this.memory.minCreeps[role]) {
           if (role == 'lorry' && room.energyAvailable >= ((BODYPART_COST["carry"]*2) + BODYPART_COST["move"])) {
             name = this.createLorry(room.energyAvailable);
+            console.log("Lorry " + this.name)
           }
           else {
-            if (room.energyAvailable == maxEnergy) {
+            if (room.energyAvailable >= maxEnergy) {
             // only want full size of other creeps
             name = this.createCustomCreep(maxEnergy, role);
             console.log("Spawned custom creep in room: " + room + ", " + name + " (" + role + ")");
@@ -119,7 +126,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
         c.memory.role == 'longDistanceHarvester' && c.memory.target == roomName);
 
       if (numberOfLongDistanceHarvesters[roomName] < this.memory.minLongDistanceHarvesters[roomName] &&
-      room.energyAvailable == maxEnergy) {
+      room.energyAvailable >= maxEnergy) {
         name = this.createLongDistanceHarvester(maxEnergy, 2, room.name, roomName, 0);
       }
       }
