@@ -125,6 +125,12 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
       }
       }
     }
+
+    if (room.storage.store[RESOURCE_ENERGY] > 0 && room.energyAvailable >= maxEnergy) {
+      this.createCustomCreep(maxEnergy, 'storageUpgrader');
+      console.log("Excess Storage creating Large Upgrader for" + room.name);
+    }
+
     // if spawning was a success print name to console
     if (name != undefined && _.isString(name)) {
       console.log(this.name + " spawned new creep: " + name + " (" + Game.creeps[name].memory.role + ")");
@@ -231,7 +237,7 @@ StructureSpawn.prototype.createMiner =
 
 // create function to spawn lorry
 StructureSpawn.prototype.createLorry =
-  function(energy) {
+  function(energy, newRole = 'lorry') {
     // lorry has twice the carry parts to move parts
     var numberOfParts = Math.floor(energy / ((BODYPART_COST["carry"]*2) + BODYPART_COST["move"]));
     // Make sure creep isn't too big
@@ -245,7 +251,7 @@ StructureSpawn.prototype.createLorry =
     }
 
     // create creep with the created body and the role lorry
-    let creepMemory = {memory: {role: 'lorry', working: false}};
+    let creepMemory = {memory: {role: newRole, working: false}};
     if (this.spawnCreep(body, 'lorry'+Game.time, creepMemory) == 0) {
         return;
     }

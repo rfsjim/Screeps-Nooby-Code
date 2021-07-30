@@ -10,7 +10,8 @@ var roles = {
     lorry: require('./role.lorry'),
     roleExtractor: require('./role.extractor'),
     cleaner: require('./role.cleaner'),
-    carlDouglas: require('./role.carlDouglas')
+    carlDouglas: require('./role.carlDouglas'),
+    storageUpgrader: require('./role.storageUpgrader')
 };
 
 Creep.prototype.runRole =
@@ -56,4 +57,4 @@ Creep.prototype.pickUpResource =
         {
             this.moveTo(target);
         }
-    }; 
+    };
