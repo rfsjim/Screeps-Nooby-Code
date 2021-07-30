@@ -40,7 +40,7 @@ module.exports = {
             // try to withdraw energy, if the container is not in range
             if (this.withdraw(Game.getObjectById(creep.memory.storage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
               // move towards it
-              this.moveTo(Game.getObjectById(creep.memory.storage);
+              this.moveTo(Game.getObjectById(creep.memory.storage));
             }
           }
         }
