@@ -3,7 +3,6 @@ module.exports = {
     /** @param {Creep} creep */
     run: function(creep) {
 
-        if (!this.pos) break;
         // if creep is bringing energy to the controller but has no energy left
         if (creep.memory.working == true && creep.store[RESOURCE_ENERGY] == 0) {
             // switch state
@@ -32,7 +31,7 @@ module.exports = {
           if (!creep.memory.storage) {
             let container;
             // find closest container
-            container = this.pos.findClosestByPath(FIND_STRUCTURES, {
+            container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
               filter: s => (s.structureType == STRUCTURE_STORAGE) && s.store[RESOURCE_ENERGY] > 0
             });
             creep.memory.storage = container.id;
@@ -40,9 +39,9 @@ module.exports = {
           // if one was found
           if (creep.memory.storage != undefined) {
             // try to withdraw energy, if the container is not in range
-            if (this.withdraw(Game.getObjectById(creep.memory.storage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            if (creep.withdraw(Game.getObjectById(creep.memory.storage), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
               // move towards it
-              this.moveTo(Game.getObjectById(creep.memory.storage));
+              creep.moveTo(Game.getObjectById(creep.memory.storage));
             }
           }
         }

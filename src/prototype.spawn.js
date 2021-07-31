@@ -128,7 +128,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
 
     if (room.storage.store[RESOURCE_ENERGY] > 0 && room.energyAvailable >= maxEnergy) {
       this.createCustomCreep(maxEnergy, 'storageUpgrader');
-      console.log("Excess Storage creating Large Upgrader for" + room.name);
+      console.log("Excess Storage creating Large Upgrader for " + room.name);
     }
 
     // if spawning was a success print name to console
