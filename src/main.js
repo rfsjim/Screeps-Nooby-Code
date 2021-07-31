@@ -9,9 +9,9 @@ const init = require('./init'); // game init details
 
 module.exports.loop = function () {
 
-  let phaseNumber = init.getCurrentPhaseNumber(Game.spawns['Spawn1'].room);
+  //let phaseNumber = init.getCurrentPhaseNumber(Game.spawns['Spawn1'].room);
 
-  init.initGame(phaseNumber);
+  //init.initGame(phaseNumber);
 
   if (Game.cpu.tickLimit < 50) {
     console.log('Game CPU dangerously low ' + JSON.stringify(Game.cpu));

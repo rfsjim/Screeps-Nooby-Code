@@ -159,9 +159,9 @@ let Phases = [
       count: 0
     }
   },
-  ],
+];
 
-module.exports = {
+let init = {
   EXIT_NAME: EXIT_NAME,
   EXITS: [FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT],
 
@@ -277,7 +277,7 @@ module.exports = {
 
     for (let spawnName in Game.spawns) {
       if (!Memory.spawns[spawnName]) {
-        let phase = this.getCurrentPhaseInfo(Game.spawns[spawnName].room;
+        let phase = this.getCurrentPhaseInfo(Game.spawns[spawnName].room);
 
         Memory.spawns[spawnName] = {};
 
