@@ -165,7 +165,7 @@ let init = {
   EXIT_NAME: EXIT_NAME,
   EXITS: [FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT],
 
-  getInitialData(roomName) {
+  getInitialData: function(roomName) {
     let data = { roomName: roomName, exits: {}, sMiners: {} };
     let exits = Game.map.describeExits(roomName);
 
@@ -295,7 +295,7 @@ let init = {
         }
       }
     }
-
   }
-
 };
+
+module.exports = init;
