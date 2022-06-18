@@ -32,4 +32,4 @@ About the project, will grow with more details about my reasons for making choic
 License
 ----
 
-MIT, for details see [license file](LICENCE).
+MIT, for details see [license file](LICENSE).
