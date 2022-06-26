@@ -40,7 +40,7 @@ module.exports = {
                 }
             }
         }
-        // if creep is supposed to harvest energy from source
+        // if creep is supposed to harvest energy from unclaimed resources
         else {
             var target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
             if (target != undefined) {

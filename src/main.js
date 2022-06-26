@@ -45,6 +45,7 @@ module.exports.loop = function () {
     for (let spawnName in Game.spawns) {
         // run spawn logic
        Game.spawns[spawnName].spawnCreepsIfNecessary();
+       //console.log("Available Energy: " + Game.spawns[spawnName].room.energyAvailable + ", energy capacity: " + Game.spawns[spawnName].room.energyCapacityAvailable);
 
        // run terminal trades
        if (Game.spawns[spawnName].room.terminal && (Game.time % 10 == 0)) {

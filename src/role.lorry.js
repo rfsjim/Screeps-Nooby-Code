@@ -41,14 +41,41 @@ module.exports = {
         }
         // if creep is supposed to get energy
         else {
-            // find closest container
-            let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0
-            });
+                let container;
+                let containers = creep.room.find(FIND_DROPPED_RESOURCES, {
+                    filter: s=> s.resourceType == RESOURCE_ENERGY
+                });
+                if (containers != undefined) {
+                    containers.sort(function(a,b) {return b.amount - a.amount});
+                    container = containers[0];
+                }
 
-            if (container == undefined) {
-                container = creep.room.storage;
-            }
+                if (container != undefined) {
+                    if (creep.pickup(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(container);
+                        console.log("Get Dropped Resources");
+                    }
+                } else {
+                    container = creep.pos.findClosestByPath(FIND_TOMBSTONES, {
+                        filter: s=> s.store[RESOURCE_ENERGY] > 0
+                    });
+                    console.log("Trying tombstone");
+                }
+
+                if (container == undefined) {
+                    // find the container with most energy
+                    containers = creep.room.find(FIND_STRUCTURES, {
+                        filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0
+                    });
+                    containers.sort(function(a,b) {return b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY]});
+                    container = containers[0];
+                    console.log("Trying containers");
+                }
+
+                if (container == undefined) {
+                    container = creep.room.storage;
+                    console.log("Trying storage");
+                }
 
             // if one was found
             if (container != undefined) {

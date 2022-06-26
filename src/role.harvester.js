@@ -1,3 +1,5 @@
+var roleUpgrader = require('./role.upgrader');
+
 module.exports = {
     // a function to run the logic for this role
     /** @param {Creep} creep */
@@ -21,8 +23,8 @@ module.exports = {
                 // a property called filter which can be a function
                 // we use the arrow operator to define it
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
-                             || s.structureType == STRUCTURE_EXTENSION)
-                             // s.structureType == STRUCTURE_TOWER)
+                             || s.structureType == STRUCTURE_EXTENSION
+                             || s.structureType == STRUCTURE_TOWER)
                              && s.store[RESOURCE_ENERGY] < s.store.getCapacity(RESOURCE_ENERGY)
             });
 
@@ -37,6 +39,9 @@ module.exports = {
                     // move towards it
                     creep.moveTo(structure);
                 }
+            } else {
+                // run upgrader logic
+               roleUpgrader.run(creep);
             }
         }
         // if creep is supposed to harvest energy from source
